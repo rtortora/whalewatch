@@ -5,7 +5,7 @@ require_relative "lib/bubble.rb"
 require_relative "lib/wrapper.rb"
 require_relative "lib/saymore.rb"
 
-if true
+if false
 require 'pry'
 require 'pry-nav'
 require 'awesome_print'
