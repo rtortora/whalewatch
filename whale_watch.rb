@@ -14,7 +14,7 @@ module WhaleWatch
     name ||= 'whale'
     path = File.dirname(__FILE__) + "/whales/#{name}"
     raise "No whale at #{path}" unless File.exist? path
-    File.open(path).read
+    return File.open(path).read
   end
 
   # get [x, y] of where %MOUTH% is
@@ -22,7 +22,7 @@ module WhaleWatch
     return whale.count("\n") unless whale.include? SIG
     lines = whale.each_line.to_a
     y = lines.find_index{|l|l.include?(SIG)}
-    [lines[y].index(SIG), y]
+    return [lines[y].index(SIG), y]
   end
 
   # remove %MOUTH% signal from whale
@@ -48,7 +48,7 @@ module WhaleWatch
 
   # resist urge to monkey patch
   def self.glines(str)
-    str.each_line.to_a.map{|x| x.chomp}
+    return str.each_line.to_a.map{|x| x.chomp}
   end
 
   # moves a text block by [x, y] via adding spaces
