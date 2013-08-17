@@ -1,12 +1,10 @@
-tags %W(animal furry)
-speak <<'EOF'
              ,
             /|      __
            / |   ,-~ /
           Y :|  //  /
           | jj /( .^
           >-"~"-v"
-         /       Y        $BUBBLE$
+         /       Y        %CONTENT%
         jo  o    |
        ( ~T~     j
         >._-' _./
@@ -19,4 +17,4 @@ speak <<'EOF'
      l       I     !
      ]\      _\    /"\
     (" ~----( ~   Y.  )
-EOF
+

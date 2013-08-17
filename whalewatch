@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require_relative 'whale_watch.rb'
+puts WhaleWatch.whale_says(ARGV.shift, content = ARGF.read)
