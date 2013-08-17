@@ -5,7 +5,7 @@ whalewatch
 
           .-'                                                  
     '--./ /     _.---.                                         
-    '-,  (__..-`       \    Don't read everything you believe. 
+    '-,  (__..-`       \    Don't believe everything you read.
        \          .     |                                      
         `,.__.   ,__.--/                                       
           '._/_.'___.-`  
