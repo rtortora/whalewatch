@@ -11,6 +11,12 @@ module WhaleWatch
 
   # load a whale file
   def self.find_a_whale(name = nil)
+    if name.nil?
+      names = Dir[File.dirname(__FILE__) + "/whales/*"].to_a.
+        map{|path| File.basename(path)}
+      index = Random.new.rand(names.size)
+      name = names[index]
+    end
     name ||= 'whale'
     path = File.dirname(__FILE__) + "/whales/#{name}"
     raise "No whale at #{path}" unless File.exist? path
