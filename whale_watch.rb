@@ -25,7 +25,7 @@ module WhaleWatch
 
   # get [x, y] of where %MOUTH% is
   def self.mouth_at(whale)
-    return whale.count("\n") unless whale.include? SIG
+    return [0, whale.count("\n")] unless whale.include? SIG
     lines = whale.each_line.to_a
     y = lines.find_index{|l|l.include?(SIG)}
     return [lines[y].index(SIG), y]
