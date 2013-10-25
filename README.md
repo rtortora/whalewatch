@@ -11,7 +11,7 @@ whalewatch
           '._/_.'___.-`  
 
 
-> fortune -s fortunes | whalewatch elephant
+> fortune -s fortunes | whalewatch
 
               __     __                                               
              /  \~~~/  \                                              
