@@ -1,3 +1,4 @@
+# WhaleWatch
 module WhaleWatch
   SIG = "%MOUTH%".freeze
   MAX_WIDTH = 42.freeze
@@ -5,15 +6,15 @@ module WhaleWatch
   # see a whale talk
   def self.whale_says(whale_name, content)
     whale = find_a_whale(whale_name)
-    speaking = perspective(wwrap(content||"", MAX_WIDTH), mouth_at(whale))
-    return silkscreen hide_mouth(whale), speaking
+    speaking = perspective(wwrap(content || "", MAX_WIDTH), mouth_at(whale))
+    silkscreen hide_mouth(whale), speaking
   end
 
   # load a whale file
   def self.find_a_whale(name = nil)
     if name.nil?
       names = Dir[File.dirname(__FILE__) + "/whales/*"].to_a.
-        map{|path| File.basename(path)}
+              map {|path| File.basename(path)}
       index = Random.new.rand(names.size)
       name = names[index]
     end
@@ -27,7 +28,7 @@ module WhaleWatch
   def self.mouth_at(whale)
     return [0, whale.count("\n")] unless whale.include? SIG
     lines = whale.each_line.to_a
-    y = lines.find_index{|l|l.include?(SIG)}
+    y = lines.find_index{|l| l.include?(SIG)}
     return [lines[y].index(SIG), y]
   end
 
@@ -35,10 +36,11 @@ module WhaleWatch
   def self.hide_mouth(whale)
     return whale.gsub(SIG, " " * SIG.size)
   end
-  
+
   # word wraps a string
   def self.wwrap(text, width)
-    lines, cur = [], ""
+    lines = []
+    cur = ""
     text.split.each do |w|
       if cur.size + w.size + 1 > width
         lines << cur if cur.size > 0
@@ -54,7 +56,7 @@ module WhaleWatch
 
   # resist urge to monkey patch
   def self.glines(str)
-    return str.each_line.to_a.map{|x| x.chomp}
+    return str.each_line.to_a.map(&:chomp)
   end
 
   # moves a text block by [x, y] via adding spaces
@@ -65,8 +67,9 @@ module WhaleWatch
   # overlays parts onto a single string
   def self.silkscreen(*parts)
     printing = ""
-    max_x = parts.map{|p| glines(p).map{|l| l.size}.max}.max
-    max_y = parts.map{|p| p.count("\n")}.max
+    sizes = parts.map{|part| part_size(part)}
+    max_x = sizes.map(&:x).max
+    max_y = sizes.map(&:y).max
     0.upto(max_y) do |y|
       0.upto(max_x) do |x|
         ch = ' '
@@ -79,5 +82,14 @@ module WhaleWatch
       printing += "\n"
     end
     return printing
+  end
+
+  # gets the max x, y of the string
+  def self.part_size(part)
+    lines = part.split("\n")
+    return {
+      x: lines.map(&:size).max,
+      y: lines.size
+    }
   end
 end

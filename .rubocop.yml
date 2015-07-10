@@ -1,0 +1,39 @@
+require:
+  - ./rubocop-cop-style-explicit_return.rb
+  
+AllCops:
+  Include:
+    - whale_watch.rb
+    - whalewatch
+  Exclude:
+    - rubocop-cop-style-explicit_return.rb
+  DisplayCopNames: true
+
+Style/RedundantReturn:
+  Enabled: false
+
+Style/ExplicitReturn:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+Style/SignalException:
+  EnforcedStyle: only_raise
+
+Metrics/AbcSize:
+  Max: 20
+
+# The spirit of this is good, but don't encourage people to write worse code just to fit into 10 lines. The ABC complexity is probably a better metric.
+Metrics/MethodLength:
+  Max: 30
+
+Style/SpaceInsideBlockBraces:
+  Enabled: false
+  
+Style/SpaceBeforeBlockBraces:
+  Enabled: false
+
