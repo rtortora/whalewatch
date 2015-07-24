@@ -1,0 +1,17 @@
+AllCops:
+  DisplayCopNames: true
+
+Style/RedundantReturn:
+  Enabled: false
+
+Style/DotPosition:
+  EnforcedStyle: trailing
+
+Style/SpaceInsideBlockBraces:
+  Enabled: false
+
+Style/SpaceBeforeBlockBraces:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20

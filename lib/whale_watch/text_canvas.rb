@@ -3,13 +3,13 @@ module WhaleWatch
   # treating it like a 2d character rendering.
   class TextCanvas
     # The fill character.
-    FILL = " "
+    FILL = ' '
 
     # @attr body [String] The raw text string. Lines separated by '\n'.
     attr_reader :body
 
     # @attr initial_body [String] The initial body. Defaults to "".
-    def initialize(initial_body = "")
+    def initialize(initial_body = '')
       @body = initial_body
     end
 
@@ -21,7 +21,7 @@ module WhaleWatch
     # @return [Point] The x, y size of the canvas, wheter x is the
     #   maximum line width and y is the number of lines.
     def size
-      return Point.new(lines.map{|line| line.size}.max || 0,
+      return Point.new(lines.map(&:size).max || 0,
                        lines.size)
     end
 
@@ -40,24 +40,11 @@ module WhaleWatch
     # wrapped).
     # @param size [Point] The new x, y size of the rendering.
     def resize(nsize, opt = {})
-      # Enforce max width.
-      if opt[:max_width] && nsize.x > opt[:max_width]
-        nsize = Point.new(opt[:max_width], size.y)
-      end
-
-      new_body = ""
+      nsize = nsize.cap_x(opt[:max_width]) # Enforce max width.
+      new_body = ''
       (0...nsize.y).each do |y|
         (0...nsize.x).each do |x|
-          if y < size.y &&
-             x < size.x
-            begin
-              new_body += lines[y][x] || FILL
-            rescue => e
-              binding.pry
-            end
-          else
-            new_body += FILL
-          end
+          new_body += (lines[y] || {})[x] || FILL
         end
         new_body += "\n"
       end

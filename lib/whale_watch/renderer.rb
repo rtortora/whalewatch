@@ -26,18 +26,15 @@ module WhaleWatch
     # @param render_canvas [String] A canvas to render.
     # @param point [Point] The point to render at. Defaults to origin
     #   (0, 0).
-    def render_canvas(render_canvas, point = nil, opt = {})
+    def render_canvas(render_canvas, point = nil)
       point ||= Point.origin
-      if point.x + render_canvas.size.x > canvas.size.x ||
-                   point.y + render_canvas.size.y > canvas.size.y
-        resize(Point.new([canvas.size.x, point.x + render_canvas.size.x + 1].max,
-                         [canvas.size.y, point.y + render_canvas.size.y].max))
+      end_point = point + render_canvas.size
+      unless canvas.size.contains?(end_point)
+        resize(canvas.size.max(end_point + Point[1, 0]))
       end
 
       render_canvas.lines.each_with_index do |line, y|
-        canvas.overwrite(Point.new(point.x,
-                                   point.y + y),
-                         line)
+        canvas.overwrite(point + Point[0, y], line)
       end
     end
 
@@ -56,13 +53,12 @@ module WhaleWatch
         opt[:word_wrap] = @max_width - point.x
       end
 
-      rtext = nil
       if opt[:word_wrap]
-        rtext = TextCanvas.new(word_wrap(text, opt[:word_wrap]).join("\n"))
+        tc = TextCanvas.new(word_wrap(text, opt[:word_wrap]).join("\n"))
+        render_canvas(tc, point)
       else
-        rtext = TextCanvas.new(text)
+        render_canvas(TextCanvas.new(text), point)
       end
-      render_canvas(rtext, point)
     end
 
     # Resizes the canvas while keeping the configured max width in
@@ -89,7 +85,7 @@ module WhaleWatch
           lines.last << word
         end
       end
-      return lines.map{|line| line.join(" ")}
+      return lines.map{|line| line.join(' ')}
     end
   end
 end

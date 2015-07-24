@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 ROOT = File.dirname(File.dirname(__FILE__))
 
-require_relative "../lib/whale_watch"
+require_relative '../lib/whale_watch'
 include WhaleWatch
 
-fname = ARGV.shift || "whale"
+fname = ARGV.shift || 'whale'
 text = ARGF.read
 display = AsciiTextArt.from_file("#{ROOT}/whales/#{fname}")
 render = Renderer.new
