@@ -12,6 +12,3 @@ Style/SpaceInsideBlockBraces:
 
 Style/SpaceBeforeBlockBraces:
   Enabled: false
-
-Metrics/AbcSize:
-  Max: 20

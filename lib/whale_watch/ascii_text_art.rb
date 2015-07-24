@@ -35,15 +35,27 @@ module WhaleWatch
     # it is present in the file, otherwise it is set to the bottom of
     # the art.
     def self.from_content(content)
+      text_point = find_text_signal(content)
+      if text_point
+        content.gsub!(TEXT_SIGNAL, ' ' * TEXT_SIGNAL.size)
+        return AsciiTextArt.new(TextCanvas.new(content), text_point)
+      else
+        return AsciiTextArt.new(TextCanvas.new(content))
+      end
+    end
+
+    # Given an ASCII art body, find the x, y point at which the text
+    # '%TEXT%' appears, or return nil.
+    # @param content [String]
+    # @return [Point, nil]
+    def self.find_text_signal(content)
       if content.include?(TEXT_SIGNAL)
         lines = content.each_line.map(&:chomp)
         y = lines.index{|line| line.include?(TEXT_SIGNAL)}
         x = lines[y].index(TEXT_SIGNAL)
-        art = lines.join("\n").
-              gsub(TEXT_SIGNAL, ' ' * TEXT_SIGNAL.size)
-        return AsciiTextArt.new(TextCanvas.new(art), Point[x, y])
+        return Point[x, y]
       else
-        return AsciiTextArt.new(TextCanvas.new(content))
+        return nil
       end
     end
   end

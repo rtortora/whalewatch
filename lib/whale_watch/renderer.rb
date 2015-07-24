@@ -28,11 +28,7 @@ module WhaleWatch
     #   (0, 0).
     def render_canvas(render_canvas, point = nil)
       point ||= Point.origin
-      end_point = point + render_canvas.size
-      unless canvas.size.contains?(end_point)
-        resize(canvas.size.max(end_point + Point[1, 0]))
-      end
-
+      sizeup(point + render_canvas.size + Point[1, 0])
       render_canvas.lines.each_with_index do |line, y|
         canvas.overwrite(point + Point[0, y], line)
       end
@@ -61,11 +57,12 @@ module WhaleWatch
       end
     end
 
-    # Resizes the canvas while keeping the configured max width in
-    # mind.
-    # @param size [Point] the new size.
-    def resize(size)
-      canvas.resize(size, max_width: @max_width)
+    # Sizes the canvas up to the provided point. Only ever increases
+    # the size of the canvas, doesn't decrease on either x or y.
+    # @param size [Point] the new minimum size.
+    def sizeup(size)
+      return nil if canvas.size.contains?(size)
+      canvas.resize(canvas.size.max(size), max_width: @max_width)
     end
 
     private
@@ -76,16 +73,21 @@ module WhaleWatch
     # @param max_width [Fixnum]
     # @return [String]
     def word_wrap(input, max_width)
-      lines = []
+      # List of lines, where each line is a list of words.
+      lines = [[]]
+
+      # Add words to the last line until it would go over the max
+      # width, in which case start a new line.
       input.split(/ +/).each do |word|
-        if lines.last.nil? ||
-           lines.last.size + word.size + 1 > max_width
-          lines << [word]
-        else
+        if (lines + [word]).join(' ').size < max_width
           lines.last << word
+        else
+          lines << [word]
         end
       end
-      return lines.map{|line| line.join(' ')}
+
+      # We're done, just turn the lists of words into actual lines.
+      return lines.map{|l| l.join(' ')}
     end
   end
 end
