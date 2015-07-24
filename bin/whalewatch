@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+ROOT = File.dirname(File.dirname(__FILE__))
+
+require_relative "../lib/whale_watch"
+include WhaleWatch
+
+fname = ARGV.shift || "whale"
+text = ARGF.read
+display = AsciiTextArt.from_file("#{ROOT}/whales/#{fname}")
+render = Renderer.new
+render.render_canvas display.art
+render.render_text(text, display.text_point, word_wrap: 40)
+puts render
