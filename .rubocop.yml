@@ -1,14 +1,3 @@
-AllCops:
-  DisplayCopNames: true
-
+# Explicit returns are more self-documenting.
 Style/RedundantReturn:
-  Enabled: false
-
-Style/DotPosition:
-  EnforcedStyle: trailing
-
-Style/SpaceInsideBlockBraces:
-  Enabled: false
-
-Style/SpaceBeforeBlockBraces:
   Enabled: false

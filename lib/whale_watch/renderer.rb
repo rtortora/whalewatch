@@ -87,7 +87,7 @@ module WhaleWatch
       end
 
       # We're done, just turn the lists of words into actual lines.
-      return lines.map{|l| l.join(' ')}
+      return lines.map { |l| l.join(' ') }
     end
   end
 end

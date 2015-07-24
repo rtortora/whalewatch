@@ -51,7 +51,7 @@ module WhaleWatch
     def self.find_text_signal(content)
       if content.include?(TEXT_SIGNAL)
         lines = content.each_line.map(&:chomp)
-        y = lines.index{|line| line.include?(TEXT_SIGNAL)}
+        y = lines.index { |line| line.include?(TEXT_SIGNAL) }
         x = lines[y].index(TEXT_SIGNAL)
         return Point[x, y]
       else
